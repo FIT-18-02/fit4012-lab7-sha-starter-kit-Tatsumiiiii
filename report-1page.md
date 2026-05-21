@@ -16,19 +16,26 @@ Tóm tắt cách nhóm/cá nhân đã thực hiện:
 
 ## 3. Kết quả / Result
 
-Điền minh chứng chính:
-
 - Hash của chuỗi `abc`:
+  → ba7816bf8f01cfea414140de5dae2223b00361a396177a9cb410ff61f20015ad
+
 - Hash của file mẫu trước khi sửa:
+  → (chạy: printf "FIT4012 SHA sample\n" > sample.txt && ./sha256 --hash-file sample.txt)
+
 - Kết quả kiểm tra file sau khi sửa nội dung:
+  → [FAIL] File was changed or expected hash is incorrect
+
 - Kết quả đăng nhập với mật khẩu đúng:
+  → [PASS] Login success
+
 - Kết quả đăng nhập với mật khẩu sai:
-- Hai bản ghi `salt:hash` của cùng một mật khẩu có giống nhau không?
+  → [FAIL] Login failed: wrong password
+
+- Hai bản ghi salt:hash của cùng một mật khẩu có giống nhau không?
+  → Không, vì salt ngẫu nhiên khác nhau mỗi lần đăng ký.
 
 ## 4. Kết luận / Conclusion
 
-Nêu ngắn gọn điều rút ra:
-
-- SHA-256 giúp phát hiện thay đổi dữ liệu như thế nào?
-- Vì sao cần salt khi lưu hash mật khẩu?
-- Vì sao SHA-256 demo trong lab chưa nên dùng trực tiếp cho hệ thống xác thực thật?
+- SHA-256 phát hiện thay đổi vì chỉ cần 1 byte thay đổi là toàn bộ hash thay đổi hoàn toàn (avalanche effect).
+- Cần salt để tránh hai người cùng mật khẩu sinh ra cùng hash, ngăn tấn công rainbow table.
+- SHA-256 không phù hợp xác thực thật vì quá nhanh — attacker có thể brute-force hàng tỷ lần/giây; cần Argon2id/bcrypt/scrypt vì các thuật toán này được thiết kế để chậm và tốn RAM.

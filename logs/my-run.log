@@ -1,0 +1,16 @@
+# Chạy toàn bộ và lưu vào log
+make > logs/my-run.log 2>&1
+./sha256 --self-test >> logs/my-run.log
+./sha256 --hash-string "abc" >> logs/my-run.log
+printf "FIT4012 SHA sample\n" > sample.txt
+./sha256 --hash-file sample.txt >> logs/my-run.log
+./file_integrity sample.txt $(./sha256 --hash-file sample.txt) >> logs/my-run.log
+echo "tamper" >> sample.txt
+./file_integrity sample.txt <hash_cũ> >> logs/my-run.log
+./password_hash register mysecret >> logs/my-run.log
+./password_hash login mysecret >> logs/my-run.log
+./password_hash login wrong >> logs/my-run.log
+./salted_password_hash register mysecret file1.hash >> logs/my-run.log
+./salted_password_hash register mysecret file2.hash >> logs/my-run.log
+cat file1.hash >> logs/my-run.log
+cat file2.hash >> logs/my-run.log
